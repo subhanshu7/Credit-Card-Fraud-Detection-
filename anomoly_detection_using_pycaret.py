@@ -13,6 +13,7 @@ import pandas as pd
 
 from pycaret.classification import *
 
+## Uploading Data from gdrive
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 from google.colab import auth
@@ -30,10 +31,13 @@ data=pd.read_csv('creditcard.csv')
 
 data.head()
 
+# Data preprocessing,analysis and Splitting
 df=setup(data,target='Class')
 
+# Comparing all Classification Models
 compare_models()
 
+# Using Catboost Model 
 catboost=create_model('catboost')
 
 interpret_model(catboost)
@@ -41,19 +45,25 @@ interpret_model(catboost)
 #generate predictions on hold-out set using trained model
 catboost_predictions_holdout = predict_model(catboost)
 
+## ANAMOLY DETECTION USING PYCARET
+
 from pycaret.anomaly import *
 
 exp_ano = setup(data)
 
+# Iforest Modelling
 iforest=create_model('iforest')
 
 iforest
 
+
 iforest_df=assign_model(iforest)
 iforest_df
 
+# 3D visuals
 plot_model(iforest)
 
+# Knn Modeling
 knn=create_model('knn')
 
 knn_df=assign_model(knn)
@@ -61,11 +71,13 @@ knn_df
 
 plot_model(knn)
 
+# Comparing Predictions
 knn_predictions = predict_model(knn, data = data)
 knn_predictions
 
 iforest_predictions = predict_model(iforest, data = data)
 iforest_predictions
 
+# we see that Iforest has more accurate Anamoly detections with less Score
 
 
